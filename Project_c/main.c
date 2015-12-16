@@ -21,7 +21,7 @@ int main()
     testFputcBuffered(1000000);
 
     testPutcUnBuffered(1000000);
-
+    testFputcUnBuffered(1000000);
 
     return 0;
 }
@@ -176,8 +176,7 @@ void testFputcUnBuffered(int times)
     }
 
     //allocate for buffer and assign it
-    char buffer[BUFFERSIZE];
-    if(setvbuf(fp, buffer, _IOFBF, BUFFERSIZE) != 0)
+    if(setvbuf(fp, NULL, _IONBF, 0) != 0)
     {
         printf("setvbuf() error");
         exit(2);
@@ -190,9 +189,6 @@ void testFputcUnBuffered(int times)
         c = (rand()%26)+'A';
         fputc(c,fp);
     }
-
-    //if there is a buffered output on stream flush it!
-    fflush(fp);
 
     //dont forget to close the file after you are done with it.
     fclose(fp);
