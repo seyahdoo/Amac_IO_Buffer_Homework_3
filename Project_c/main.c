@@ -1,5 +1,5 @@
 ///reference http://en.cppreference.com/w/c/io/setbuf
-///thanks to Stephen on http://stackoverflow.com/questions/3557221/how-do-i-measure-time-in-c
+///thanks to KLee1 on http://stackoverflow.com/questions/3557221/how-do-i-measure-time-in-c
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,7 +16,7 @@ int main()
 {
 
 
-    testPutcBuffered(1000000);
+    testPutcBuffered(2560500);
     testFputcBuffered(1000000);
 
 
@@ -27,11 +27,8 @@ int main()
 
 void testPutcBuffered(int times)
 {
-    time_t start, end;
-    double dif;
-
-    //get start time
-    time (&start);
+    //get start clock
+    clock_t start = clock();
 
     //open the test file.
     FILE *fp;
@@ -61,25 +58,21 @@ void testPutcBuffered(int times)
     //dont forget to close the file after you are done with it.
     fclose(fp);
 
-    //get stop time
-    time (&end);
+    //get end clock
+    clock_t end = clock();
 
     //calculate the seconds between start and end times.
-    dif = difftime (end,start);
+    float seconds = (float)(end - start) / CLOCKS_PER_SEC;
 
     //print the result!?
-    printf ("Putc() Test Buffered took %.2lf seconds to run for %d times.\n", dif,times);
-
+    printf ("Putc() Test Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
 }
 
 
 void testFputcBuffered(int times)
 {
-    time_t start, end;
-    double dif;
-
-    //get start time
-    time (&start);
+    //get start clock
+    clock_t start = clock();
 
     //open the test file.
     FILE *fp;
@@ -109,14 +102,14 @@ void testFputcBuffered(int times)
     //dont forget to close the file after you are done with it.
     fclose(fp);
 
-    //get stop time
-    time (&end);
+    //get end clock
+    clock_t end = clock();
 
     //calculate the seconds between start and end times.
-    dif = difftime (end,start);
+    float seconds = (float)(end - start) / CLOCKS_PER_SEC;
 
     //print the result!?
-    printf ("Fputc() Test Buffered took %.2lf seconds to run for %d times.\n", dif,times);
+    printf ("Fputc() Test Buffered took %.2lf seconds to run for %d times.\n", seconds,times);
 }
 
 
