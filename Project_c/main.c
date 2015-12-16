@@ -6,7 +6,7 @@
 #include <limits.h> //for INT_MAX
 #include <time.h> //for timer
 
-#define BUFFERSIZE 3
+#define BUFFERSIZE 1024
 
 void testPutcBuffered(int);
 void testPutcUnBuffered(int);
@@ -15,8 +15,6 @@ void testFputcUnBuffered(int);
 
 int main()
 {
-
-
     testPutcBuffered(1000000);
     testFputcBuffered(1000000);
 
@@ -202,3 +200,8 @@ void testFputcUnBuffered(int times)
     //print the result!?
     printf ("Fputc() Test Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
 }
+
+
+
+
+
