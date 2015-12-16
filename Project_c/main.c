@@ -9,16 +9,18 @@
 #define BUFFERSIZE 3
 
 void testPutcBuffered(int);
+void testPutcUnBuffered(int);
 void testFputcBuffered(int);
-
+void testFputcUnBuffered(int);
 
 int main()
 {
 
 
-    testPutcBuffered(2560500);
+    testPutcBuffered(1000000);
     testFputcBuffered(1000000);
 
+    testPutcUnBuffered(1000000);
 
 
     return 0;
@@ -55,6 +57,9 @@ void testPutcBuffered(int times)
         putc(c,fp);
     }
 
+    //if there is a buffered output on stream flush it!
+    fflush(fp);
+
     //dont forget to close the file after you are done with it.
     fclose(fp);
 
@@ -68,6 +73,47 @@ void testPutcBuffered(int times)
     printf ("Putc() Test Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
 }
 
+void testPutcUnBuffered(int times)
+{
+    //get start clock
+    clock_t start = clock();
+
+    //open the test file.
+    FILE *fp;
+    fp = fopen("Test.txt","w");
+    if(fp == NULL)
+    {
+        printf("Test.txt couldnt open \non testPutcBuffered()");
+        exit(1);
+    }
+
+    //Set Null Buffer. (No Buffering on c runtime side)
+    if(setvbuf(fp,NULL,_IONBF,0) != 0)
+    {
+        printf("setbuf() error");
+        exit(2);
+    }
+
+    //plainly put "times" times random character
+    int c,i;
+    for(i = 0;i<times;i++)
+    {
+        c = (rand()%26)+'A';
+        putc(c,fp);
+    }
+
+    //dont forget to close the file after you are done with it.
+    fclose(fp);
+
+    //get end clock
+    clock_t end = clock();
+
+    //calculate the seconds between start and end times.
+    float seconds = (float)(end - start) / CLOCKS_PER_SEC;
+
+    //print the result!?
+    printf ("Putc() Test Un Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
+}
 
 void testFputcBuffered(int times)
 {
@@ -99,6 +145,9 @@ void testFputcBuffered(int times)
         fputc(c,fp);
     }
 
+    //if there is a buffered output on stream flush it!
+    fflush(fp);
+
     //dont forget to close the file after you are done with it.
     fclose(fp);
 
@@ -109,10 +158,51 @@ void testFputcBuffered(int times)
     float seconds = (float)(end - start) / CLOCKS_PER_SEC;
 
     //print the result!?
-    printf ("Fputc() Test Buffered took %.2lf seconds to run for %d times.\n", seconds,times);
+    printf ("Fputc() Test Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
 }
 
+void testFputcUnBuffered(int times)
+{
+    //get start clock
+    clock_t start = clock();
 
+    //open the test file.
+    FILE *fp;
+    fp = fopen("Test.txt","w");
+    if(fp == NULL)
+    {
+        printf("Test.txt couldnt open \non testFputcBuffered()");
+        exit(1);
+    }
 
+    //allocate for buffer and assign it
+    char buffer[BUFFERSIZE];
+    if(setvbuf(fp, buffer, _IOFBF, BUFFERSIZE) != 0)
+    {
+        printf("setvbuf() error");
+        exit(2);
+    }
 
+    //plainly put "times" times random character
+    int c,i;
+    for(i = 0;i<times;i++)
+    {
+        c = (rand()%26)+'A';
+        fputc(c,fp);
+    }
 
+    //if there is a buffered output on stream flush it!
+    fflush(fp);
+
+    //dont forget to close the file after you are done with it.
+    fclose(fp);
+
+    //get end clock
+    clock_t end = clock();
+
+    //calculate the seconds between start and end times.
+    float seconds = (float)(end - start) / CLOCKS_PER_SEC;
+
+    //print the result!?
+    printf ("Fputc() Test Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
+}
