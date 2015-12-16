@@ -37,9 +37,10 @@ void testPutcBuffered(int times)
     time_t start, end;
     double dif;
 
+    //get start time
     time (&start);
 
-
+    //open the test file.
     FILE *fp;
     fp = fopen("Test.txt","w");
     if(fp == NULL)
@@ -48,6 +49,7 @@ void testPutcBuffered(int times)
         exit(1);
     }
 
+    //allocate for buffer and assign it
     char buffer[BUFFERSIZE];
     if(setvbuf(fp, buffer, _IOFBF, BUFFERSIZE) != 0)
     {
@@ -55,18 +57,24 @@ void testPutcBuffered(int times)
         exit(2);
     }
 
+    //plainly put "times" times random character
     int c,i;
-
     for(i = 0;i<times;i++)
     {
         c = (rand()%26)+'A';
         putc(c,fp);
     }
 
+    //dont forget to close the file after you are done with it.
     fclose(fp);
 
+    //get stop time
     time (&end);
+
+    //calculate the seconds between start and end times.
     dif = difftime (end,start);
+
+    //print the result!?
     printf ("Putc() Test Buffered took %.2lf seconds to run for %d times.\n", dif,times);
 
 }
