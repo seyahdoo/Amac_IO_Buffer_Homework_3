@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h> //for INT_MAX
 
 #define BUFFERSIZE 3
 
@@ -11,17 +12,9 @@ int main()
     char buffer[BUFFERSIZE];
     int c;
     //c = setvbuf(stdin, buffer, _IOFBF, BUFFERSIZE);
-
-    printf("%d",c);
-    putchar('b');
-    putchar('c');
-    putchar('d');
-    putchar('e');
-    putchar('f');
-    putchar('g');
-    for (c = 0;c<2000;c++)
+    for (c = 0;c<30000;c++)
     {
-        putchar(' ');
+        putchar('0');
     }
 
 

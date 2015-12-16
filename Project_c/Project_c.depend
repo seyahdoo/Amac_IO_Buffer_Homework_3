@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1450297364 source:c:\users\goglomen\documents\github\amac_io_buffer_homework_3\project_c\main.c
+	<stdio.h>
+	<stdlib.h>
+	<limits.h>
+
