@@ -15,17 +15,28 @@ void testFputcUnBuffered(int);
 
 void testGetcBuffered(int);
 void testGetcUnBuffered(int);
+void testFgetcBuffered(int);
 
 int main()
 {
     testPutcBuffered(1000000);
     testPutcUnBuffered(1000000);
+    printf("\n");
 
     testGetcBuffered(1000000);
     testGetcUnBuffered(1000000);
+    printf("\n");
 
     testFputcBuffered(1000000);
     testFputcUnBuffered(1000000);
+    printf("\n");
+
+
+    testFgetcBuffered(1000000);
+
+    printf("\n");
+
+
 
     return 0;
 }
@@ -312,7 +323,6 @@ void testGetcUnBuffered(int times)
     printf ("Getc() Test Un Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
 }
 
-
 void testFgetcBuffered(int times)
 {
     //get start clock
@@ -367,4 +377,11 @@ void testFgetcBuffered(int times)
     //print the result!?
     printf ("Fgetc() Test Un Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
 }
+
+
+
+
+
+
+
 
