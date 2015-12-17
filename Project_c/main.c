@@ -12,6 +12,9 @@ IDE: Code::Blocks 13.12
 Operating System Windows 10
 */
 
+///you can find this project on github
+///https://github.com/seyahdoo/Amac_IO_Buffer_Homework_3
+
 ///reference http://en.cppreference.com/w/c/io/setbuf
 ///thanks to KLee1 on http://stackoverflow.com/questions/3557221/how-do-i-measure-time-in-c
 
@@ -34,9 +37,11 @@ void testFgetcUnBuffered(int);
 
 void testBufferThing(int);
 
+void getch(void);
+
 int main()
 {
-    printf("nPress Any Key to Initiate Buffer Test");
+    printf("\nPress Any Key to Initiate Buffer Test");
     getch();
 
     testBufferThing(100000);
@@ -44,13 +49,14 @@ int main()
     testBufferThing(10000000);
 
     printf("\nTest Ended!");
-    printf("\nPress Any Key to Exit")
+    printf("\nPress Any Key to Exit");
     getch();
     return 0;
 }
 
 void testBufferThing(int Amount)
 {
+    printf("\n");
     testPutcBuffered(Amount);
     testPutcUnBuffered(Amount);
     printf("\n");
@@ -110,10 +116,6 @@ void testPutcBuffered(int times)
     //calculate the seconds between start and end times.
     float seconds = (float)(end - start) / CLOCKS_PER_SEC;
 
-    //Release the memory so there wont be any Memory Leaks
-    free(RamStorage);
-    free(buffer);
-
     //print the result!?
     printf ("Putc() Test Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
 }
@@ -155,9 +157,6 @@ void testPutcUnBuffered(int times)
 
     //calculate the seconds between start and end times.
     float seconds = (float)(end - start) / CLOCKS_PER_SEC;
-
-    //Release the memory so there wont be any Memory Leaks
-    free(RamStorage);
 
     //print the result!?
     printf ("Putc() Test Un Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
@@ -205,10 +204,6 @@ void testFputcBuffered(int times)
     //calculate the seconds between start and end times.
     float seconds = (float)(end - start) / CLOCKS_PER_SEC;
 
-    //Release the memory so there wont be any Memory Leaks
-    free(RamStorage);
-    free(buffer);
-
     //print the result!?
     printf ("Fputc() Test Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
 }
@@ -250,9 +245,6 @@ void testFputcUnBuffered(int times)
 
     //calculate the seconds between start and end times.
     float seconds = (float)(end - start) / CLOCKS_PER_SEC;
-
-    //Release the memory so there wont be any Memory Leaks
-    free(RamStorage);
 
     //print the result!?
     printf ("Fputc() Test Un Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
@@ -311,7 +303,6 @@ void testGetcBuffered(int times)
 
     //Release the memory so there wont be any Memory Leaks
     free(RamStorage);
-    free(buffer);
 
     //print the result!?
     printf ("Getc() Test Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
@@ -424,7 +415,6 @@ void testFgetcBuffered(int times)
 
     //Release the memory so there wont be any Memory Leaks
     free(RamStorage);
-    free(buffer);
 
     //print the result!?
     printf ("Fgetc() Test Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
