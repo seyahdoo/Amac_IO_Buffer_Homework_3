@@ -13,12 +13,16 @@ void testPutcUnBuffered(int);
 void testFputcBuffered(int);
 void testFputcUnBuffered(int);
 
+void testGetcBuffered(int);
+
 int main()
 {
     testPutcBuffered(1000000);
-    testFputcBuffered(1000000);
-
     testPutcUnBuffered(1000000);
+
+    testGetcBuffered(1000000);
+
+    testFputcBuffered(1000000);
     testFputcUnBuffered(1000000);
 
     return 0;
@@ -169,7 +173,7 @@ void testFputcUnBuffered(int times)
     fp = fopen("Test.txt","w");
     if(fp == NULL)
     {
-        printf("Test.txt couldnt open \non testFputcBuffered()");
+        printf("Test.txt couldnt open \non testFputcUnBuffered()");
         exit(1);
     }
 
@@ -198,10 +202,62 @@ void testFputcUnBuffered(int times)
     float seconds = (float)(end - start) / CLOCKS_PER_SEC;
 
     //print the result!?
-    printf ("Fputc() Test Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
+    printf ("Fputc() Test Un Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
 }
 
+void testGetcBuffered(int times)
+{
+    //get start clock
+    clock_t start = clock();
 
+    //open the test file.
+    FILE *fp;
+    fp = fopen("Test.txt","r");
+    if(fp == NULL)
+    {
+        printf("Test.txt couldnt open \non testGetcBuffered()");
+        exit(1);
+    }
 
+    //allocate for buffer and assign it
+    char buffer[BUFFERSIZE];
+    if(setvbuf(fp, buffer, _IOFBF, BUFFERSIZE) != 0)
+    {
+        printf("setvbuf() error");
+        exit(2);
+    }
+
+    //allocate memory to store from file
+    char *RamStorage;
+    RamStorage = malloc(times*sizeof(char));
+    if(RamStorage == NULL)
+    {
+        printf("We dont have enough memory for RamStorage on testGetcBuffered()\n exiting!");
+        printf("%d",times);
+        exit(3);
+    }
+
+    //get the RamStorage data from drive
+    int c,i;
+    for(i = 0;i<times;i++)
+    {
+        RamStorage[i] = getc(fp);
+    }
+
+    //if there is a buffered output on stream flush it!
+    fflush(fp);
+
+    //dont forget to close the file after you are done with it.
+    fclose(fp);
+
+    //get end clock
+    clock_t end = clock();
+
+    //calculate the seconds between start and end times.
+    float seconds = (float)(end - start) / CLOCKS_PER_SEC;
+
+    //print the result!?
+    printf ("Getc() Test Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
+}
 
 
