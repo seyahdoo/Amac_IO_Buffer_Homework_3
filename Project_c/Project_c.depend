@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1450354835 source:c:\users\goglomen\documents\github\amac_io_buffer_homework_3\project_c\main.c
+1450380012 source:c:\users\goglomen\documents\github\amac_io_buffer_homework_3\project_c\main.c
 	<stdio.h>
 	<stdlib.h>
 	<limits.h>

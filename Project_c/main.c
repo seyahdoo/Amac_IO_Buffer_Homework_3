@@ -22,13 +22,14 @@ void testBufferThing(int);
 
 int main()
 {
+    getch();
 
     testBufferThing(100000);
     testBufferThing(1000000);
     testBufferThing(10000000);
 
     printf("\nTest Ended!");
-    getchar();
+    getch();
     return 0;
 }
 
