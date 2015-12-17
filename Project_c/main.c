@@ -16,6 +16,7 @@ void testFputcUnBuffered(int);
 void testGetcBuffered(int);
 void testGetcUnBuffered(int);
 void testFgetcBuffered(int);
+void testFgetcUnBuffered(int);
 
 int main()
 {
@@ -33,6 +34,7 @@ int main()
 
 
     testFgetcBuffered(1000000);
+    testFgetcUnBuffered(1000000);
 
     printf("\n");
 
@@ -259,6 +261,8 @@ void testGetcBuffered(int times)
     //if there is a buffered output on stream flush it!
     fflush(fp);
 
+    free(RamStorage);
+
     //dont forget to close the file after you are done with it.
     fclose(fp);
 
@@ -309,6 +313,8 @@ void testGetcUnBuffered(int times)
     {
         RamStorage[i] = getc(fp);
     }
+
+    free(RamStorage);
 
     //dont forget to close the file after you are done with it.
     fclose(fp);
@@ -365,6 +371,61 @@ void testFgetcBuffered(int times)
     //if there is a buffered input on stream flush it!
     fflush(fp);
 
+    free(RamStorage);
+
+    //dont forget to close the file after you are done with it.
+    fclose(fp);
+
+    //get end clock
+    clock_t end = clock();
+
+    //calculate the seconds between start and end times.
+    float seconds = (float)(end - start) / CLOCKS_PER_SEC;
+
+    //print the result!?
+    printf ("Fgetc() Test Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
+}
+
+void testFgetcUnBuffered(int times)
+{
+    //get start clock
+    clock_t start = clock();
+
+    //open the test file.
+    FILE *fp;
+    fp = fopen("Test.txt","r");
+    if(fp == NULL)
+    {
+        printf("Test.txt couldnt open \non testGetcBuffered()");
+        exit(1);
+    }
+
+    //set buffer to NULL
+    if(setvbuf(fp, NULL, _IONBF, 0) != 0)
+    {
+        printf("setvbuf() error");
+        exit(2);
+    }
+
+    //allocate memory to store from file
+    char *RamStorage;
+    RamStorage = malloc(times*sizeof(char));
+    if(RamStorage == NULL)
+    {
+        printf("We dont have enough memory for RamStorage on testGetcBuffered()\n exiting!");
+        printf("%d",times);
+        exit(3);
+    }
+
+    //get the RamStorage data from drive
+    int i;
+    for(i = 0;i<times;i++)
+    {
+        RamStorage[i] = fgetc(fp);
+    }
+
+    free(RamStorage);
+
     //dont forget to close the file after you are done with it.
     fclose(fp);
 
@@ -377,11 +438,4 @@ void testFgetcBuffered(int times)
     //print the result!?
     printf ("Fgetc() Test Un Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
 }
-
-
-
-
-
-
-
 
