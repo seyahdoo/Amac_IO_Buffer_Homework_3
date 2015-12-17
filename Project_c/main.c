@@ -30,7 +30,6 @@ int main()
     return 0;
 }
 
-
 void testPutcBuffered(int times)
 {
     //get start clock
@@ -300,9 +299,6 @@ void testGetcUnBuffered(int times)
         RamStorage[i] = getc(fp);
     }
 
-    //if there is a buffered output on stream flush it!
-    fflush(fp);
-
     //dont forget to close the file after you are done with it.
     fclose(fp);
 
@@ -315,3 +311,60 @@ void testGetcUnBuffered(int times)
     //print the result!?
     printf ("Getc() Test Un Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
 }
+
+
+void testFgetcBuffered(int times)
+{
+    //get start clock
+    clock_t start = clock();
+
+    //open the test file.
+    FILE *fp;
+    fp = fopen("Test.txt","r");
+    if(fp == NULL)
+    {
+        printf("Test.txt couldnt open \non testGetcBuffered()");
+        exit(1);
+    }
+
+    //allocate for buffer and assign it
+    char buffer[BUFFERSIZE];
+    if(setvbuf(fp, buffer, _IOFBF, BUFFERSIZE) != 0)
+    {
+        printf("setvbuf() error");
+        exit(2);
+    }
+
+    //allocate memory to store from file
+    char *RamStorage;
+    RamStorage = malloc(times*sizeof(char));
+    if(RamStorage == NULL)
+    {
+        printf("We dont have enough memory for RamStorage on testGetcBuffered()\n exiting!");
+        printf("%d",times);
+        exit(3);
+    }
+
+    //get the RamStorage data from drive
+    int i;
+    for(i = 0;i<times;i++)
+    {
+        RamStorage[i] = fgetc(fp);
+    }
+
+    //if there is a buffered input on stream flush it!
+    fflush(fp);
+
+    //dont forget to close the file after you are done with it.
+    fclose(fp);
+
+    //get end clock
+    clock_t end = clock();
+
+    //calculate the seconds between start and end times.
+    float seconds = (float)(end - start) / CLOCKS_PER_SEC;
+
+    //print the result!?
+    printf ("Fgetc() Test Un Buffered took %2.10f seconds to run for %d times.\n", seconds,times);
+}
+
