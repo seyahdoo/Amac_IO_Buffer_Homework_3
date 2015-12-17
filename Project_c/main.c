@@ -18,29 +18,38 @@ void testGetcUnBuffered(int);
 void testFgetcBuffered(int);
 void testFgetcUnBuffered(int);
 
+void testBufferThing(int);
+
 int main()
 {
-    testPutcBuffered(1000000);
-    testPutcUnBuffered(1000000);
-    printf("\n");
 
-    testGetcBuffered(1000000);
-    testGetcUnBuffered(1000000);
-    printf("\n");
+    testBufferThing(100000);
+    testBufferThing(1000000);
+    testBufferThing(10000000);
 
-    testFputcBuffered(1000000);
-    testFputcUnBuffered(1000000);
-    printf("\n");
-
-
-    testFgetcBuffered(1000000);
-    testFgetcUnBuffered(1000000);
-
-    printf("\n");
-
-
-
+    printf("\nTest Ended!");
+    getchar();
     return 0;
+}
+
+void testBufferThing(int Amount)
+{
+    testPutcBuffered(Amount);
+    testPutcUnBuffered(Amount);
+    printf("\n");
+
+    testGetcBuffered(Amount);
+    testGetcUnBuffered(Amount);
+    printf("\n");
+
+    testFputcBuffered(Amount);
+    testFputcUnBuffered(Amount);
+    printf("\n");
+
+    testFgetcBuffered(Amount);
+    testFgetcUnBuffered(Amount);
+    printf("\n");
+
 }
 
 void testPutcBuffered(int times)
